@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KosKuning - Hunian Nyaman & Hangat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FFFBF0;
+            color: #3E2723;
+        }
+
+        /* Warna tema */
+        :root {
+            --cream: #F4E4C1;
+            --dark-cream: #E6D4A3;
+            --brown: #8B4513;
+            --light-brown: #A0522D;
+            --beige: #F5DEB3;
+            --white: #FFFFFF;
+        }
+
+        /* Navigasi */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(139, 69, 19, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--cream) 0%, var(--dark-cream) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://picsum.photos/seed/koscream/1920/1080.jpg') center/cover;
+            opacity: 0.15;
+        }
+
+        /* Card Kamar */
+        .room-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(139, 69, 19, 0.2);
+            border-color: var(--cream);
+        }
+
+        .room-image {
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .room-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--brown);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+        }
+
+        /* Fasilitas */
+        .facility-item {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid var(--cream);
+        }
+
+        .facility-item:hover {
+            background: var(--cream);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15);
+        }
+
+        .facility-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--brown);
+            transition: all 0.3s ease;
+        }
+
+        .facility-item:hover .facility-icon {
+            background: var(--brown);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        /* Testimoni */
+        .testimonial-card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.1);
+            position: relative;
+            border-left: 5px solid var(--cream);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            font-size: 80px;
+            color: var(--cream);
+            font-family: serif;
+            opacity: 0.6;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            background: var(--brown);
+            color: var(--white);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+        }
+
+        .whatsapp-btn:hover {
+            background: var(--light-brown);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+        }
+
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Animasi */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Section Title */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--brown);
+            border-radius: 2px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--brown);
+            border-radius: 5px;
+        }
+
+        /* Price Tag */
+        .price-tag {
+            background: var(--cream);
+            color: var(--brown);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 24px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Feature List */
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--cream);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Location Card */
+        .location-card {
+            background: var(--cream);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.15);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--brown) 0%, var(--light-brown) 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 px-6 py-5">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <i class="fas fa-home text-white text-xl"></i>
+                </div>
+                <span class="text-3xl font-bold text-gray-800">KosKuning</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-yellow-600 transition font-medium text-lg">Beranda</a>
+                <a href="#rooms" class="text-gray-700 hover:text-yellow-600 transition font-medium text-lg">Kamar</a>
+                <a href="#facilities" class="text-gray-700 hover:text-yellow-600 transition font-medium text-lg">Fasilitas</a>
+                <a href="#location" class="text-gray-700 hover:text-yellow-600 transition font-medium text-lg">Lokasi</a>
+                <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20KosKuning.%20Bisa%20dibantu%3F" 
+                   class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i>
+                    Pesan Sekarang
+                </a>
+            </div>
+
+            <button class="md:hidden" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars text-2xl text-gray-700"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-white z-40 shadow-2xl p-6">
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6">
+            <i class="fas fa-times text-2xl text-gray-700"></i>
+        </button>
+        <div class="mt-20 space-y-6">
+            <a href="#home" class="block text-gray-700 hover:text-yellow-600 text-xl py-3 font-medium">Beranda</a>
+            <a href="#rooms" class="block text-gray-700 hover:text-yellow-600 text-xl py-3 font-medium">Kamar</a>
+            <a href="#facilities" class="block text-gray-700 hover:text-yellow-600 text-xl py-3 font-medium">Fasilitas</a>
+            <a href="#location" class="block text-gray-700 hover:text-yellow-600 text-xl py-3 font-medium">Lokasi</a>
+            <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20KosKuning.%20Bisa%20dibantu%3F" 
+               class="whatsapp-btn w-full justify-center mt-8">
+                <i class="fab fa-whatsapp"></i>
+                Pesan Sekarang
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-in-up">
+                    <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+                        Hunian Hangat <br>
+                        <span class="text-yellow-600">Berkualitas</span>
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-10 leading-relaxed">
+                        Rasakan kenyamanan tinggal di kos dengan suasana hangat, 
+                        fasilitas lengkap, dan harga terjangkau. 
+                        Tempat sempurna untuk Anda.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20KosKuning.%20Bisa%20dibantu%3F" 
+                           class="whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i>
+                            Chat via WhatsApp
+                        </a>
+                        <a href="#rooms" class="bg-transparent border-3 border-yellow-600 text-yellow-600 px-10 py-4 rounded-full font-bold hover:bg-yellow-600 hover:text-white transition text-lg">
+                            Lihat Kamar
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-10 mt-12">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-yellow-600">50+</div>
+                            <div class="text-gray-700">Kamar</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-yellow-600">200+</div>
+                            <div class="text-gray-700">Penghuni</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-yellow-600">4.9</div>
+                            <div class="text-gray-700">Rating</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 transform rotate-3">
+                        <img src="https://picsum.photos/seed/koshero2/500/400.jpg" alt="Kos Kuning" class="rounded-2xl mb-6">
+                        <div class="bg-yellow-100 p-4 rounded-xl">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800">Promo Spesial</h3>
+                                    <p class="text-gray-600">Gratis laundry 1 bulan</p>
+                                </div>
+                                <div class="text-3xl font-bold text-yellow-600">FREE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="section-title text-5xl font-bold text-gray-800">Tipe Kamar</h2>
+                <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+                    Pilih kamar yang sesuai dengan kebutuhan dan budget Anda. 
+                    Semua kamar dirancang untuk memberikan kenyamanan maksimal.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Room 1 -->
+                <div class="room-card">
+                    <div class="room-image" style="background-image: url('https://picsum.photos/seed/kamar1/400/300.jpg')">
+                        <div class="room-badge">Populer</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-4 text-gray-800">Kamar Standard</h3>
+                        <p class="text-gray-600 mb-6 text-lg">Kamar nyaman dengan desain minimalis modern</p>
+                        <div class="price-tag">Rp 800.000/bulan</div>
+                        <ul class="feature-list mb-8">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                AC & Kipas Angin
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                Kamar Mandi Dalam
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                WiFi 50Mbps
+                            </li>
+                        </ul>
+                        <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20Kamar%20Standard.%20Apakah%20masih%20tersedia%3F" 
+                           class="whatsapp-btn w-full justify-center">
+                            <i class="fab fa-whatsapp"></i>
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="room-card">
+                    <div class="room-image" style="background-image: url('https://picsum.photos/seed/kamar2/400/300.jpg')">
+                        <div class="room-badge">Best Value</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-4 text-gray-800">Kamar Deluxe</h3>
+                        <p class="text-gray-600 mb-6 text-lg">Kamar lebih luas dengan balkon pribadi</p>
+                        <div class="price-tag">Rp 1.200.000/bulan</div>
+                        <ul class="feature-list mb-8">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                AC & Smart TV 32"
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                Kamar Mandi Dalam
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                Balkon Pribadi
+                            </li>
+                        </ul>
+                        <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20Kamar%20Deluxe.%20Apakah%20masih%20tersedia%3F" 
+                           class="whatsapp-btn w-full justify-center">
+                            <i class="fab fa-whatsapp"></i>
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div class="room-card">
+                    <div class="room-image" style="background-image: url('https://picsum.photos/seed/kamar3/400/300.jpg')">
+                        <div class="room-badge">Premium</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold mb-4 text-gray-800">Kamar Suite</h3>
+                        <p class="text-gray-600 mb-6 text-lg">Suite premium dengan ruang tamu terpisah</p>
+                        <div class="price-tag">Rp 1.800.000/bulan</div>
+                        <ul class="feature-list mb-8">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                AC & Home Theater
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                Kulkas Mini
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check text-yellow-600 mr-4 text-xl"></i>
+                                Ruang Tamu Pribadi
+                            </li>
+                        </ul>
+                        <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20dengan%20Kamar%20Suite.%20Apakah%20masih%20tersedia%3F" 
+                           class="whatsapp-btn w-full justify-center">
+                            <i class="fab fa-whatsapp"></i>
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities" class="py-24" style="background-color: #FFFBF0;">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="section-title text-5xl font-bold text-gray-800">Fasilitas Unggulan</h2>
+                <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+                    Nikmati berbagai fasilitas modern yang dirancang untuk kenyamanan dan produktivitas Anda.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Internet Cepat</h3>
+                    <p class="text-gray-600">WiFi 100Mbps di semua area</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Keamanan 24/7</h3>
+                    <p class="text-gray-600">CCTV & penjaga profesional</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Parkir Luas</h3>
+                    <p class="text-gray-600">Gratis untuk motor & mobil</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Laundry</h3>
+                    <p class="text-gray-600">Cuci & setrika murah</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Dapur Bersih</h3>
+                    <p class="text-gray-600">Lengkap & terawat</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Ruang Santai</h3>
+                    <p class="text-gray-600">TV & sofa nyaman</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Air Minum</h3>
+                    <p class="text-gray-600">Dispenser gratis</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h3 class="font-semibold text-xl mb-3 text-gray-800">Kebersihan</h3>
+                    <p class="text-gray-600">Cleaning service harian</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="section-title text-5xl font-bold text-gray-800 mb-8">Lokasi Strategis</h2>
+                    <p class="text-gray-600 mb-10 text-lg">
+                        Terletak di area yang mudah diakses, dekat dengan berbagai fasilitas penting 
+                        untuk memudahkan aktivitas sehari-hari Anda.
+                    </p>
+                    
+                    <div class="location-card">
+                        <div class="flex items-start">
+                            <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                <i class="fas fa-graduation-cap text-yellow-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-2">Pendidikan</h4>
+                                <p class="text-gray-600">5 menit ke Universitas, 10 menit ke Sekolah</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="flex items-start">
+                            <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                <i class="fas fa-shopping-cart text-yellow-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-2">Perbelanjaan</h4>
+                                <p class="text-gray-600">10 menit ke Mall, banyak minimarket di sekitar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="flex items-start">
+                            <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                <i class="fas fa-bus text-yellow-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-2">Transportasi</h4>
+                                <p class="text-gray-600">Halte bus di depan, dekat stasiun kereta</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <div class="flex items-start">
+                            <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mr-5 flex-shrink-0">
+                                <i class="fas fa-utensils text-yellow-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl text-gray-800 mb-2">Kuliner</h4>
+                                <p class="text-gray-600">Banyak warung makan & restoran murah</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-yellow-50 rounded-3xl overflow-hidden shadow-2xl h-96">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.81693531476878!3d-6.194741995493989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bccf!2sJakarta!5e0!3m2!1sen!2sid!4v1635959034567!5m2!1sen!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-24" style="background-color: #FFFBF0;">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="section-title text-5xl font-bold text-gray-800">Testimoni Penghuni</h2>
+                <p class="text-gray-600 mt-6 max-w-3xl mx-auto text-lg">
+                    Dengarkan pengalaman langsung dari penghuni kami yang telah merasakan kenyamanan tinggal di KosKuning.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/seed/person1/60/60.jpg" alt="Testimoni 1" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-800">Rina Susanti</h4>
+                            <div class="text-yellow-500 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 relative z-10 text-lg leading-relaxed">
+                        "Kosnya sangat nyaman dan bersih. Suasananya hangat dan pemiliknya ramah. 
+                        Fasilitas lengkap dengan harga yang sangat terjangkau."
+                    </p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/seed/person2/60/60.jpg" alt="Testimoni 2" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-800">Budi Pratama</h4>
+                            <div class="text-yellow-500 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 relative z-10 text-lg leading-relaxed">
+                        "Lokasinya sangat strategis dekat kampus. WiFi kencang banget, 
+                        cocok buat mahasiswa yang sering online. Recommended!"
+                    </p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <img src="https://picsum.photos/seed/person3/60/60.jpg" alt="Testimoni 3" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-xl text-gray-800">Maya Putri</h4>
+                            <div class="text-yellow-500 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 relative z-10 text-lg leading-relaxed">
+                        "Sudah 6 bulan tinggal di sini, sangat puas. Keamanannya terjamin, 
+                        lingkungannya nyaman, dan teman-teman penghuninya juga baik."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-24 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-8">Siap Tinggal di KosKuning?</h2>
+            <p class="text-xl mb-12 max-w-3xl mx-auto">
+                Jangan lewatkan kesempatan untuk mendapatkan kamar impian Anda. 
+                Hubungi kami sekarang juga dan dapatkan penawaran spesial!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20tertarik%20untuk%20menyewa%20kamar%20di%20KosKuning.%20Bisa%20dibantu%3F" 
+                   class="whatsapp-btn bg-white text-yellow-600 hover:bg-gray-100">
+                    <i class="fab fa-whatsapp"></i>
+                    Chat via WhatsApp
+                </a>
+                <a href="tel:+6281234567890" class="bg-transparent border-3 border-white text-white px-12 py-4 rounded-full font-bold hover:bg-white hover:text-yellow-600 transition text-lg">
+                    <i class="fas fa-phone mr-3"></i>
+                    Telepon Sekarang
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-10 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-home text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold">KosKuning</h3>
+                    </div>
+                    <p class="text-gray-400 text-lg">
+                        Hunian hangat untuk generasi muda dengan fasilitas lengkap dan harga terjangkau.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#rooms" class="hover:text-yellow-400 transition text-lg">Tipe Kamar</a></li>
+                        <li><a href="#facilities" class="hover:text-yellow-400 transition text-lg">Fasilitas</a></li>
+                        <li><a href="#location" class="hover:text-yellow-400 transition text-lg">Lokasi</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition text-lg">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-6">Kontak</h4>
+                    <ul class="space-y-3 text-gray-400 text-lg">
+                        <li><i class="fas fa-phone mr-3"></i>0812-3456-7890</li>
+                        <li><i class="fas fa-envelope mr-3"></i>info@koskuning.com</li>
+                        <li><i class="fas fa-map-marker-alt mr-3"></i>Jl. Contoh No. 123, Jakarta</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-6">Jam Operasional</h4>
+                    <ul class="space-y-3 text-gray-400 text-lg">
+                        <li>Senin - Jumat: 08:00 - 20:00</li>
+                        <li>Sabtu: 09:00 - 18:00</li>
+                        <li>Minggu: 10:00 - 17:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p class="text-lg">&copy; 2024 KosKuning. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20bertanya%20tentang%20KosKuning." 
+       class="whatsapp-float">
+        <i class="fab fa-whatsapp text-white text-3xl"></i>
+    </a>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu
+                    document.getElementById('mobileMenu').classList.remove('active');
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease-out';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
